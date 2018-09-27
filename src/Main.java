@@ -1,9 +1,9 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 class DisjointUnionSets {
@@ -65,7 +65,7 @@ class DisjointUnionSets {
 }
 
 
-public class Solution {
+public class Main {
 
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -96,7 +96,6 @@ public class Solution {
         int maxValueInMap=(Collections.max(counter.values()));
         int minValueInMap=(Collections.min(counter.values()));
 
-        System.out.println("Max node "+ maxValueInMap+ " And Min value is "+ minValueInMap);
 
         int[] result = new int[2];
         result[0] = minValueInMap;
@@ -107,21 +106,42 @@ public class Solution {
 
     public static void main(String[] args) throws IOException {
 
-        int n = Integer.parseInt(scanner.nextLine().trim());
+        File file = new File("E:\\DisjointUnionSets\\src\\input.txt");
 
-        int[][] gb = new int[n][2];
+        BufferedReader br = new BufferedReader(new FileReader(file));
 
-        for (int gbRowItr = 0; gbRowItr < n; gbRowItr++) {
-            String[] gbRowItems = scanner.nextLine().split(" ");
+        String st;
 
-            for (int gbColumnItr = 0; gbColumnItr < 2; gbColumnItr++) {
-                int gbItem = Integer.parseInt(gbRowItems[gbColumnItr].trim());
-                gb[gbRowItr][gbColumnItr] = gbItem;
-            }
+        int[][] gb = new int[40][2];
+//        for(int i = 0; i < n; i++ ){
+//
+//        }
+        int counter = 0;
+        while ((st = br.readLine()) != null){
+            String[] str =  st.split(" ");
+            gb[counter][0] = Integer.parseInt(str[0]);
+            gb[counter][1] = Integer.parseInt(str[1]);
+            counter++;
         }
-
-        int[] result = componentsInGraph(gb);
+                int[] result = componentsInGraph(gb);
         System.out.println(result[0]+ " " +result[1]);
+
+
+
+
+//    int n = Integer.parseInt(scanner.nextLine().trim());
+//
+//        int[][] gb = new int[n][2];
+//
+//        for (int gbRowItr = 0; gbRowItr < n; gbRowItr++) {
+//            String[] gbRowItems = scanner.nextLine().split(" ");
+//
+//            for (int gbColumnItr = 0; gbColumnItr < 2; gbColumnItr++) {
+//                int gbItem = Integer.parseInt(gbRowItems[gbColumnItr].trim());
+//                gb[gbRowItr][gbColumnItr] = gbItem;
+//            }
+//        }
+//
 
 //
 
