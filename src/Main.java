@@ -13,8 +13,8 @@ class DisjointUnionSets {
 
     // Constructor
     public DisjointUnionSets(int n){
-        rnak = new int[n+1];
         parent = new int[n+1];
+        rnak = new int[n+1];
         this.n = n;
         makeSet();
     }
@@ -50,14 +50,17 @@ class DisjointUnionSets {
         // Find the representative of tow sets.
         int xRoot = find(x);
         int yRoot = find(y);
+        if (xRoot == yRoot){
+            return;
+        }
 
-        if(xRoot < yRoot) {
-            parent[xRoot] = yRoot;
-        } else if(rnak[yRoot] < rnak[xRoot]){
-            parent[xRoot] = xRoot;
-        } else {
+        if(rnak[xRoot] > rnak[yRoot]) {
             parent[yRoot] = xRoot;
-            rnak[xRoot] = rnak[xRoot] + 1;
+        }  else {
+            parent[xRoot] = yRoot;
+            if(rnak[xRoot] == rnak[yRoot]){
+                rnak[yRoot] = rnak[yRoot] +1;
+            }
         }
 
     }
@@ -91,57 +94,65 @@ public class Main {
                 counter.put(root, 1);
             }
         }
-        while (counter.values().remove(1));
 
-        int maxValueInMap=(Collections.max(counter.values()));
-        int minValueInMap=(Collections.min(counter.values()));
+        final Integer[] maxValue = {0};
+        final Integer[] minValue = {Integer.MAX_VALUE};
+        counter.entrySet().forEach(entry -> {
+            int value = entry.getValue();
+            if(value >= maxValue[0] & value > 1){
+                maxValue[0] = value;
+            }
+            if(value <= minValue[0] & value > 1){
+                minValue[0] = value;
+            }
+        });
 
 
         int[] result = new int[2];
-        result[0] = minValueInMap;
-        result[1] = maxValueInMap;
+        result[0] = minValue[0];;
+        result[1] =  maxValue[0];
         return result;
 
     }
 
     public static void main(String[] args) throws IOException {
 
-        File file = new File("E:\\DisjointUnionSets\\src\\input.txt");
-
-        BufferedReader br = new BufferedReader(new FileReader(file));
-
-        String st;
-
-        int[][] gb = new int[40][2];
-//        for(int i = 0; i < n; i++ ){
+//        File file = new File("C:\\Users\\rasel\\Desktop\\DisjointUnionSets\\src\\input.txt");
 //
+//        BufferedReader br = new BufferedReader(new FileReader(file));
+//
+//        String st;
+//
+//        int[][] gb = new int[40][2];
+////        for(int i = 0; i < n; i++ ){
+////
+////        }
+//        int counter = 0;
+//        while ((st = br.readLine()) != null){
+//            String[] str =  st.split(" ");
+//            gb[counter][0] = Integer.parseInt(str[0]);
+//            gb[counter][1] = Integer.parseInt(str[1]);
+//            counter++;
 //        }
-        int counter = 0;
-        while ((st = br.readLine()) != null){
-            String[] str =  st.split(" ");
-            gb[counter][0] = Integer.parseInt(str[0]);
-            gb[counter][1] = Integer.parseInt(str[1]);
-            counter++;
+//                int[] result = componentsInGraph(gb);
+//        System.out.println(result[0]+ " " +result[1]);
+
+
+
+
+    int n = Integer.parseInt(scanner.nextLine().trim());
+
+        int[][] gb = new int[n][2];
+
+        for (int gbRowItr = 0; gbRowItr < n; gbRowItr++) {
+            String[] gbRowItems = scanner.nextLine().split(" ");
+
+            for (int gbColumnItr = 0; gbColumnItr < 2; gbColumnItr++) {
+                int gbItem = Integer.parseInt(gbRowItems[gbColumnItr].trim());
+                gb[gbRowItr][gbColumnItr] = gbItem;
+            }
         }
-                int[] result = componentsInGraph(gb);
-        System.out.println(result[0]+ " " +result[1]);
 
-
-
-
-//    int n = Integer.parseInt(scanner.nextLine().trim());
-//
-//        int[][] gb = new int[n][2];
-//
-//        for (int gbRowItr = 0; gbRowItr < n; gbRowItr++) {
-//            String[] gbRowItems = scanner.nextLine().split(" ");
-//
-//            for (int gbColumnItr = 0; gbColumnItr < 2; gbColumnItr++) {
-//                int gbItem = Integer.parseInt(gbRowItems[gbColumnItr].trim());
-//                gb[gbRowItr][gbColumnItr] = gbItem;
-//            }
-//        }
-//
 
 //
 
